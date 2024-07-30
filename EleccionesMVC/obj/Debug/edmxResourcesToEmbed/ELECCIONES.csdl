@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ELECCIONESModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Candidato">
+    <Key>
+      <PropertyRef Name="id_candidato" />
+    </Key>
+    <Property Name="id_candidato" Type="Int32" Nullable="false" />
+    <Property Name="id_partido" Type="Int32" />
+    <Property Name="plataforma" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="nombre_candidato" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Votantes" Relationship="Self.FK_Eleccion" FromRole="Candidatos" ToRole="Votante" />
+    <NavigationProperty Name="VotosResultados" Relationship="Self.FK_Id_candidato" FromRole="Candidatos" ToRole="VotosResultados" />
+    <NavigationProperty Name="Partido_Politico" Relationship="Self.FK_Id_partido" FromRole="Candidatos" ToRole="Partido_Politico" />
+  </EntityType>
+  <EntityType Name="Partido_Politico">
+    <Key>
+      <PropertyRef Name="id_partido" />
+    </Key>
+    <Property Name="id_partido" Type="Int32" Nullable="false" />
+    <Property Name="nombre_partido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="ideales" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Candidatos" Relationship="Self.FK_Id_partido" FromRole="Partido_Politico" ToRole="Candidatos" />
+  </EntityType>
+  <EntityType Name="Votante">
+    <Key>
+      <PropertyRef Name="id_votante" />
+    </Key>
+    <Property Name="id_votante" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="apellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="edad" Type="Int32" />
+    <Property Name="Eleccion" Type="Int32" />
+    <NavigationProperty Name="Candidato" Relationship="Self.FK_Eleccion" FromRole="Votante" ToRole="Candidatos" />
+    <NavigationProperty Name="VotosResultados" Relationship="Self.FK_Id_Votante" FromRole="Votante" ToRole="VotosResultados" />
+  </EntityType>
+  <EntityType Name="VotosResultado">
+    <Key>
+      <PropertyRef Name="id_voto" />
+    </Key>
+    <Property Name="id_voto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_candidato" Type="Int32" />
+    <Property Name="fecha" Type="DateTime" Precision="0" />
+    <Property Name="id_votante" Type="Int32" />
+    <NavigationProperty Name="Candidato" Relationship="Self.FK_Id_candidato" FromRole="VotosResultados" ToRole="Candidatos" />
+    <NavigationProperty Name="Votante" Relationship="Self.FK_Id_Votante" FromRole="VotosResultados" ToRole="Votante" />
+  </EntityType>
+  <Association Name="FK_Eleccion">
+    <End Role="Candidatos" Type="Self.Candidato" Multiplicity="0..1" />
+    <End Role="Votante" Type="Self.Votante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Candidatos">
+        <PropertyRef Name="id_candidato" />
+      </Principal>
+      <Dependent Role="Votante">
+        <PropertyRef Name="Eleccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Id_candidato">
+    <End Role="Candidatos" Type="Self.Candidato" Multiplicity="0..1" />
+    <End Role="VotosResultados" Type="Self.VotosResultado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Candidatos">
+        <PropertyRef Name="id_candidato" />
+      </Principal>
+      <Dependent Role="VotosResultados">
+        <PropertyRef Name="id_candidato" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Id_partido">
+    <End Role="Partido_Politico" Type="Self.Partido_Politico" Multiplicity="0..1" />
+    <End Role="Candidatos" Type="Self.Candidato" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Partido_Politico">
+        <PropertyRef Name="id_partido" />
+      </Principal>
+      <Dependent Role="Candidatos">
+        <PropertyRef Name="id_partido" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Id_Votante">
+    <End Role="Votante" Type="Self.Votante" Multiplicity="0..1" />
+    <End Role="VotosResultados" Type="Self.VotosResultado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Votante">
+        <PropertyRef Name="id_votante" />
+      </Principal>
+      <Dependent Role="VotosResultados">
+        <PropertyRef Name="id_votante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ELECCIONESEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Candidatos" EntityType="Self.Candidato" />
+    <EntitySet Name="Partido_Politico" EntityType="Self.Partido_Politico" />
+    <EntitySet Name="Votantes" EntityType="Self.Votante" />
+    <EntitySet Name="VotosResultados" EntityType="Self.VotosResultado" />
+    <AssociationSet Name="FK_Eleccion" Association="Self.FK_Eleccion">
+      <End Role="Candidatos" EntitySet="Candidatos" />
+      <End Role="Votante" EntitySet="Votantes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Id_candidato" Association="Self.FK_Id_candidato">
+      <End Role="Candidatos" EntitySet="Candidatos" />
+      <End Role="VotosResultados" EntitySet="VotosResultados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Id_partido" Association="Self.FK_Id_partido">
+      <End Role="Partido_Politico" EntitySet="Partido_Politico" />
+      <End Role="Candidatos" EntitySet="Candidatos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Id_Votante" Association="Self.FK_Id_Votante">
+      <End Role="Votante" EntitySet="Votantes" />
+      <End Role="VotosResultados" EntitySet="VotosResultados" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

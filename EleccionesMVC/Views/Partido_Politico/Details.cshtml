@@ -1,0 +1,35 @@
+﻿@model EleccionesMVC.Partido_Politico
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Partido_Politico</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre_partido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre_partido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ideales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ideales)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_partido }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

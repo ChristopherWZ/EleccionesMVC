@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EleccionesMVC.Candidato>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.plataforma)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre_candidato)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Partido_Politico.nombre_partido)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.plataforma)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre_candidato)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Partido_Politico.nombre_partido)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_candidato }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_candidato }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_candidato })
+        </td>
+    </tr>
+}
+
+</table>

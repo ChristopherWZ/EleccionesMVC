@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ELECCIONESModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Candidatos">
+    <Key>
+      <PropertyRef Name="id_candidato" />
+    </Key>
+    <Property Name="id_candidato" Type="int" Nullable="false" />
+    <Property Name="id_partido" Type="int" />
+    <Property Name="plataforma" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="nombre_candidato" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Partido_Politico">
+    <Key>
+      <PropertyRef Name="id_partido" />
+    </Key>
+    <Property Name="id_partido" Type="int" Nullable="false" />
+    <Property Name="nombre_partido" Type="varchar" MaxLength="30" />
+    <Property Name="ideales" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Votante">
+    <Key>
+      <PropertyRef Name="id_votante" />
+    </Key>
+    <Property Name="id_votante" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="30" />
+    <Property Name="apellido" Type="varchar" MaxLength="30" />
+    <Property Name="edad" Type="int" />
+    <Property Name="Eleccion" Type="int" />
+  </EntityType>
+  <EntityType Name="VotosResultados">
+    <Key>
+      <PropertyRef Name="id_voto" />
+    </Key>
+    <Property Name="id_voto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_candidato" Type="int" />
+    <Property Name="fecha" Type="date" />
+    <Property Name="id_votante" Type="int" />
+  </EntityType>
+  <Association Name="FK_Eleccion">
+    <End Role="Candidatos" Type="Self.Candidatos" Multiplicity="0..1" />
+    <End Role="Votante" Type="Self.Votante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Candidatos">
+        <PropertyRef Name="id_candidato" />
+      </Principal>
+      <Dependent Role="Votante">
+        <PropertyRef Name="Eleccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Id_candidato">
+    <End Role="Candidatos" Type="Self.Candidatos" Multiplicity="0..1" />
+    <End Role="VotosResultados" Type="Self.VotosResultados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Candidatos">
+        <PropertyRef Name="id_candidato" />
+      </Principal>
+      <Dependent Role="VotosResultados">
+        <PropertyRef Name="id_candidato" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Id_partido">
+    <End Role="Partido_Politico" Type="Self.Partido_Politico" Multiplicity="0..1" />
+    <End Role="Candidatos" Type="Self.Candidatos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Partido_Politico">
+        <PropertyRef Name="id_partido" />
+      </Principal>
+      <Dependent Role="Candidatos">
+        <PropertyRef Name="id_partido" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Id_Votante">
+    <End Role="Votante" Type="Self.Votante" Multiplicity="0..1" />
+    <End Role="VotosResultados" Type="Self.VotosResultados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Votante">
+        <PropertyRef Name="id_votante" />
+      </Principal>
+      <Dependent Role="VotosResultados">
+        <PropertyRef Name="id_votante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ELECCIONESModelStoreContainer">
+    <EntitySet Name="Candidatos" EntityType="Self.Candidatos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Partido_Politico" EntityType="Self.Partido_Politico" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Votante" EntityType="Self.Votante" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VotosResultados" EntityType="Self.VotosResultados" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Eleccion" Association="Self.FK_Eleccion">
+      <End Role="Candidatos" EntitySet="Candidatos" />
+      <End Role="Votante" EntitySet="Votante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Id_candidato" Association="Self.FK_Id_candidato">
+      <End Role="Candidatos" EntitySet="Candidatos" />
+      <End Role="VotosResultados" EntitySet="VotosResultados" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Id_partido" Association="Self.FK_Id_partido">
+      <End Role="Partido_Politico" EntitySet="Partido_Politico" />
+      <End Role="Candidatos" EntitySet="Candidatos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Id_Votante" Association="Self.FK_Id_Votante">
+      <End Role="Votante" EntitySet="Votante" />
+      <End Role="VotosResultados" EntitySet="VotosResultados" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

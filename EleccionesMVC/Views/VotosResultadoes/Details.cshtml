@@ -1,0 +1,43 @@
+﻿@model EleccionesMVC.VotosResultado
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VotosResultado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Candidato.plataforma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Candidato.plataforma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Votante.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Votante.nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_voto }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
